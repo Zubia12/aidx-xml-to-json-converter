@@ -20,7 +20,23 @@ A comprehensive web application for converting AIDX (Airport Information Data Ex
 - ✅ **JSON Export**: Convert parsed data to JSON format
 - ✅ **Python 3.9+ Compatible**: Uses only standard library (no external dependencies)
 
-## Installation
+## 🚀 Run on GitHub (No Installation Required!)
+
+### Option 1: GitHub Codespaces (Recommended)
+1. Go to your repository: `https://github.com/Zubia12/aidx-xml-to-json-converter`
+2. Click the green **"Code"** button
+3. Select **"Codespaces"** tab
+4. Click **"Create codespace on main"**
+5. Wait for the environment to load (2-3 minutes)
+6. Run: `python app.py` to start the web interface
+7. Access the app at the forwarded port (automatically opens)
+
+### Option 2: GitHub Actions Demo
+- Every push automatically runs a demo with your sample XML files
+- Check the **"Actions"** tab to see live parsing results
+- No setup required - runs automatically!
+
+## Installation (Local Development)
 
 No external dependencies required! The module uses only Python standard library.
 

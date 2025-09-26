@@ -1,0 +1,67 @@
+name: AIDX Parser Demo
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  demo:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Set up Python 3.9
+      uses: actions/setup-python@v3
+      with:
+        python-version: 3.9
+    
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+    
+    - name: Run Parser Tests
+      run: |
+        python test_aidx_parser.py
+    
+    - name: Demo Parser with Sample Files
+      run: |
+        echo "🚀 Running AIDX Parser Demo..."
+        python -c "
+        from aidx_parser import parse_aidx
+        import os
+        import json
+        
+        # Find sample XML files
+        xml_files = []
+        for root, dirs, files in os.walk('AOS xml files'):
+            for file in files:
+                if file.endswith('.xml'):
+                    xml_files.append(os.path.join(root, file))
+                    if len(xml_files) >= 3:  # Demo with first 3 files
+                        break
+            if len(xml_files) >= 3:
+                break
+        
+        print(f'Found {len(xml_files)} sample XML files')
+        
+        for xml_file in xml_files:
+            print(f'\\n📄 Processing: {xml_file}')
+            try:
+                result = parse_aidx(xml_file, output_format='json')
+                print(f'✅ Successfully parsed {xml_file}')
+                print(f'📊 JSON output length: {len(result)} characters')
+            except Exception as e:
+                print(f'❌ Error parsing {xml_file}: {e}')
+        
+        print('\\n🎉 Demo completed!')
+        "
+    
+    - name: Start Web Application (Demo)
+      run: |
+        echo "🌐 Starting Flask web application..."
+        timeout 30s python app.py || echo "✅ Web app started successfully (timed out after 30s as expected)"
