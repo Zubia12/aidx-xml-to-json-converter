@@ -1,0 +1,46 @@
+{
+  "name": "AIDX XML to JSON Converter",
+  "description": "A web application for converting AIDX XML files to JSON format with drag-and-drop functionality",
+  "repository": "https://github.com/yourusername/aidx-xml-to-json-converter",
+  "logo": "https://raw.githubusercontent.com/yourusername/aidx-xml-to-json-converter/main/static/images/logo.png",
+  "keywords": [
+    "aidx",
+    "xml",
+    "json",
+    "converter",
+    "aviation",
+    "iata",
+    "flask",
+    "python"
+  ],
+  "stack": "heroku-22",
+  "buildpacks": [
+    {
+      "url": "heroku/python"
+    }
+  ],
+  "env": {
+    "FLASK_DEBUG": {
+      "description": "Enable Flask debug mode",
+      "value": "False"
+    },
+    "SECRET_KEY": {
+      "description": "Secret key for Flask sessions",
+      "generator": "secret"
+    },
+    "MAX_CONTENT_LENGTH": {
+      "description": "Maximum file upload size in bytes",
+      "value": "16777216"
+    }
+  },
+  "formation": {
+    "web": {
+      "quantity": 1,
+      "size": "eco"
+    }
+  },
+  "addons": [],
+  "scripts": {
+    "postdeploy": "echo 'AIDX XML to JSON Converter deployed successfully!'"
+  }
+}

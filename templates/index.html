@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AIDX XML to JSON Converter</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Header Section -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-exchange-alt"></i>
+                    <h1>AIDX XML to JSON Converter</h1>
+                </div>
+                <div class="header-info">
+                    <span class="version">v1.0</span>
+                    <span class="status" id="status">Ready</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <!-- Upload Section -->
+            <section class="upload-section">
+                <div class="upload-container">
+                    <div class="drop-zone" id="dropZone">
+                        <div class="drop-zone-content">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                            <h3>Drag & Drop XML Files Here</h3>
+                            <p>or <span class="browse-link" id="browseLink">browse files</span></p>
+                            <input type="file" id="fileInput" accept=".xml" multiple hidden>
+                            <div class="supported-formats">
+                                <small>Supported: .xml files (AIDX format)</small>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- File List -->
+                    <div class="file-list" id="fileList" style="display: none;">
+                        <h4><i class="fas fa-list"></i> Selected Files</h4>
+                        <div class="files-container" id="filesContainer"></div>
+                        <div class="action-buttons">
+                            <button class="btn btn-primary" id="convertBtn">
+                                <i class="fas fa-magic"></i> Convert to JSON
+                            </button>
+                            <button class="btn btn-secondary" id="clearBtn">
+                                <i class="fas fa-trash"></i> Clear All
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Comparison Section -->
+            <section class="comparison-section" id="comparisonSection" style="display: none;">
+                <div class="comparison-header">
+                    <h2><i class="fas fa-columns"></i> Side-by-Side Comparison</h2>
+                    <div class="comparison-controls">
+                        <select id="fileSelector" class="file-selector">
+                            <option value="">Select a file to view</option>
+                        </select>
+                        <div class="view-controls">
+                            <button class="btn btn-small" id="downloadJson">
+                                <i class="fas fa-download"></i> Download JSON
+                            </button>
+                            <button class="btn btn-small" id="copyJson">
+                                <i class="fas fa-copy"></i> Copy JSON
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="comparison-container">
+                    <!-- XML Panel -->
+                    <div class="panel xml-panel">
+                        <div class="panel-header">
+                            <h3><i class="fas fa-code"></i> Original XML</h3>
+                            <div class="panel-info">
+                                <span class="file-size" id="xmlFileSize">0 KB</span>
+                                <span class="line-count" id="xmlLineCount">0 lines</span>
+                            </div>
+                        </div>
+                        <div class="panel-content">
+                            <pre class="code-block" id="xmlContent">
+                                <code class="language-xml">Select a file to view XML content</code>
+                            </pre>
+                        </div>
+                    </div>
+
+                    <!-- JSON Panel -->
+                    <div class="panel json-panel">
+                        <div class="panel-header">
+                            <h3><i class="fas fa-brackets-curly"></i> Converted JSON</h3>
+                            <div class="panel-info">
+                                <span class="file-size" id="jsonFileSize">0 KB</span>
+                                <span class="line-count" id="jsonLineCount">0 lines</span>
+                            </div>
+                        </div>
+                        <div class="panel-content">
+                            <pre class="code-block" id="jsonContent">
+                                <code class="language-json">JSON output will appear here after conversion</code>
+                            </pre>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Statistics Section -->
+            <section class="stats-section" id="statsSection" style="display: none;">
+                <div class="stats-container">
+                    <h3><i class="fas fa-chart-bar"></i> Conversion Statistics</h3>
+                    <div class="stats-grid">
+                        <div class="stat-item">
+                            <div class="stat-value" id="totalFiles">0</div>
+                            <div class="stat-label">Files Processed</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value" id="successRate">0%</div>
+                            <div class="stat-label">Success Rate</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value" id="totalSize">0 KB</div>
+                            <div class="stat-label">Total Size</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value" id="processingTime">0ms</div>
+                            <div class="stat-label">Processing Time</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loadingOverlay" style="display: none;">
+        <div class="loading-content">
+            <div class="spinner"></div>
+            <h3>Converting XML to JSON...</h3>
+            <p id="loadingText">Processing your files</p>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notifications -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 AIDX XML to JSON Converter. Powered by Python & Flask.</p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>

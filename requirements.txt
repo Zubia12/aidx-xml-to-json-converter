@@ -1,0 +1,35 @@
+# AIDX XML to JSON Converter - Dependencies
+# Production-ready web application requirements
+
+# Core Web Framework
+Flask==2.3.3
+Flask-CORS==4.0.0
+
+# Web Server (for production deployment)
+gunicorn==21.2.0
+
+# Security and utilities
+Werkzeug==2.3.7
+Jinja2==3.1.6
+itsdangerous==2.2.0
+click==8.1.8
+blinker==1.9.0
+MarkupSafe==3.0.2
+
+# Development dependencies (optional)
+# Uncomment for development environment
+# pytest==7.4.3
+# pytest-cov==4.1.0
+# black==23.11.0
+# flake8==6.1.0
+
+# Python version requirement
+# python>=3.9
+
+# Note: Core AIDX parser uses only Python standard library:
+# - xml.etree.ElementTree (built-in)
+# - json (built-in) 
+# - pathlib (built-in)
+# - logging (built-in)
+# - typing (built-in)
+# - unittest (built-in)
